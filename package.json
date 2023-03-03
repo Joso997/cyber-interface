@@ -1,0 +1,38 @@
+{
+	"name": "cyber-interface",
+	"version": "1.0.0",
+	"description": "ECS for Web Development",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"module": "dist/index.esm.js",
+	"eslintConfig": {
+		"root": true,
+		"parserOptions": {
+			"ecmaVersion": 2020
+		},
+		"rules": {
+			"@typescript-eslint/no-namespace": "off"
+		}
+	},
+	"exports": {
+		".": {
+			"import": "./dist/index.esm.js",
+			"require": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "tsc"
+	},
+	"directories": {
+		"lib": "src"
+	},
+	"author": "Joso Marich",
+	"license": "ISC",
+	"devDependencies": {
+		"typescript": "^4.9.5"
+	},
+	"dependencies": {
+		"ste-simple-events": "^2.1.16"
+	}
+}
