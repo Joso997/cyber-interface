@@ -5,6 +5,15 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"module": "dist/index.esm.js",
+	"eslintConfig": {
+		"parserOptions": {
+			"ecmaVersion": 2020,
+			"sourceType": "module"
+		},
+		"rules": {
+			"@typescript-eslint/no-namespace": "off"
+		}
+	},
 	"exports": {
 		".": {
 			"import": "./dist/index.esm.js",
