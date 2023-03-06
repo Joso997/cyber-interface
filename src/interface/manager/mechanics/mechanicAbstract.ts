@@ -47,8 +47,8 @@ export abstract class MechanicAbstract {
       }
       if(noDuplicate){
         this.ObjectTemplates.push(element)
-        noDuplicate = true
       }
+      noDuplicate = true
     }
     return this.ObjectTemplates
   }
