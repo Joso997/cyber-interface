@@ -1,1 +1,0 @@
-{"version":3,"file":"statChangeEventArgs.js","sourceRoot":"","sources":["../../../src/interface/manager/containerClasses/statChangeEventArgs.ts"],"names":[],"mappings":"AAEA,MAAM,OAAO,mBAAmB;IACrB,QAAQ,CAAa;IACrB,MAAM,CAAK;IAElB,YAAoB,SAAuB,EAAE,OAAY;QACvD,IAAI,CAAC,QAAQ,GAAG,SAAS,CAAA;QACzB,IAAI,CAAC,MAAM,GAAG,OAAO,CAAA;IACvB,CAAC;CACJ"}

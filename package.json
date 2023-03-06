@@ -10,7 +10,7 @@
 		"cybertale",
 		"web"
 	],
-	"main": "dist/index.js",
+	"main": "src/interface/index.ts",
 	"types": "dist/index.d.ts",
 	"module": "dist/index.esm.js",
 	"repository": {
