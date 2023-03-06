@@ -38,11 +38,16 @@ export abstract class MechanicAbstract {
   }
 
   public AppendAndFilterDuplicate (_objectTemplates: ObjectTemplate[]) : ObjectTemplate[] {
+    let noDuplicate = true;
     for (const element of _objectTemplates) {
       for(const oldElement of this.ObjectTemplates){
-        if(element.Stats[StatTypeEnum.Tag].Data !== oldElement.Stats[StatTypeEnum.Tag].Data ){
-          this.ObjectTemplates.push(element)
+        if(element.Stats[StatTypeEnum.Tag].Data === oldElement.Stats[StatTypeEnum.Tag].Data ){
+          noDuplicate = false
         }
+      }
+      if(noDuplicate){
+        this.ObjectTemplates.push(element)
+        noDuplicate = true
       }
     }
     return this.ObjectTemplates
