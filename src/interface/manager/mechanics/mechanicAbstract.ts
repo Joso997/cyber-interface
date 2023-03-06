@@ -32,7 +32,7 @@ export abstract class MechanicAbstract {
 
   public Append (_objectTemplates: ObjectTemplate[]) : ObjectTemplate[] {
     for (const element of _objectTemplates) {
-      for(const oldElement of _objectTemplates){
+      for(const oldElement of this.ObjectTemplates){
         if(element.Stats[StatTypeEnum.Tag].Data !== oldElement.Stats[StatTypeEnum.Tag].Data ){
           this.ObjectTemplates.push(element)
         }
