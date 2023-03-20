@@ -19,7 +19,7 @@ export namespace Manager.Events.Type{
       }
 
       public CheckRequirements (_object: any): void {
-        console.log(this.Data)
+        throw new Error('Method not implemented.')
       }
     }
 
@@ -29,7 +29,7 @@ export namespace Manager.Events.Type{
       }
 
       public CheckRequirements (_object: any): void {
-        console.log(this.Data)
+        throw new Error('Method not implemented.')
       }
     }
 
@@ -39,7 +39,7 @@ export namespace Manager.Events.Type{
       }
 
       public CheckRequirements (_object: any): void {
-        console.log(this.Data)
+        throw new Error('Method not implemented.')
       }
     }
 
@@ -49,7 +49,7 @@ export namespace Manager.Events.Type{
       }
 
       public CheckRequirements (_object: any): void {
-        console.log(this.Data)
+        throw new Error('Method not implemented.')
       }
     }
 
@@ -59,7 +59,7 @@ export namespace Manager.Events.Type{
       }
 
       public CheckRequirements (_object: any): void {
-        console.log(this.Data)
+        throw new Error('Method not implemented.')
       }
     }
 
@@ -69,7 +69,7 @@ export namespace Manager.Events.Type{
     }
 
     public CheckRequirements (_object: any): void {
-      console.log(this.Data)
+      throw new Error('Method not implemented.')
     }
   }
 
@@ -79,7 +79,7 @@ export namespace Manager.Events.Type{
     }
 
     public CheckRequirements (_object: any): void {
-      console.log(this.Data)
+      throw new Error('Method not implemented.')
     }
   }
 
@@ -89,7 +89,7 @@ export namespace Manager.Events.Type{
     }
 
     public CheckRequirements (_object: any): void {
-      console.log(this.Data)
+      throw new Error('Method not implemented.')
     }
   }
 
@@ -99,7 +99,7 @@ export namespace Manager.Events.Type{
     }
 
     public CheckRequirements (_object: any): void {
-      console.log(this.Data)
+      throw new Error('Method not implemented.')
     }
   }
 
@@ -109,7 +109,7 @@ export namespace Manager.Events.Type{
     }
 
     public CheckRequirements (_object: any): void {
-      console.log(this.Data)
+      throw new Error('Method not implemented.')
     }
   }
 
@@ -119,7 +119,7 @@ export namespace Manager.Events.Type{
     }
 
     public CheckRequirements (_object: any): void {
-      console.log(this.Data)
+      throw new Error('Method not implemented.')
     }
   }
 
@@ -129,7 +129,7 @@ export namespace Manager.Events.Type{
     }
 
     public CheckRequirements (_object: any): void {
-      console.log(this.Data)
+      throw new Error('Method not implemented.')
     }
   }
 
@@ -139,7 +139,7 @@ export namespace Manager.Events.Type{
     }
 
     public CheckRequirements (_object: any): void {
-      console.log(this.Data)
+      throw new Error('Method not implemented.')
     }
   }
 
@@ -149,7 +149,7 @@ export namespace Manager.Events.Type{
     }
 
     public CheckRequirements (_object: any): void {
-      console.log(this.Data)
+      throw new Error('Method not implemented.')
     }
   }
 
@@ -159,7 +159,7 @@ export namespace Manager.Events.Type{
     }
 
     public CheckRequirements (_object: any): void {
-      console.log(this.Data)
+      throw new Error('Method not implemented.')
     }
   }
 
