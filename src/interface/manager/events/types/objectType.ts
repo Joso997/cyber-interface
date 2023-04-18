@@ -21,7 +21,8 @@ export enum ObjectTypeEnum {
   ModalForm,
   MapPicker,
   FieldCode,
-  DataSelect
+  DataSelect,
+  UploadFile
 }
 
 export class ObjectType {
@@ -47,6 +48,7 @@ export class ObjectType {
       [ObjectTypeEnum.ModalForm]: Manager.Events.Type.ModalForm.SetComponent,
       [ObjectTypeEnum.MapPicker]: Manager.Events.Type.MapPicker.SetComponent,
       [ObjectTypeEnum.FieldCode]: Manager.Events.Type.FieldCode.SetComponent,
-      [ObjectTypeEnum.DataSelect]: Manager.Events.Type.DataSelect.SetComponent
+      [ObjectTypeEnum.DataSelect]: Manager.Events.Type.DataSelect.SetComponent,
+      [ObjectTypeEnum.UploadFile]: Manager.Events.Type.UploadFile.SetComponent
     }
 }

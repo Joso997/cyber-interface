@@ -1,5 +1,5 @@
 import { StatChangeDel } from '../../../containerClasses/statChangeEventArgs'
-import { ObjectTypeEnum } from '../objectType'
+import {ObjectType, ObjectTypeEnum} from '../objectType'
 import { SubObjectTypeEnum } from '../subObjectType'
 import { Manager as ObjectTypeAbstract } from '../objectTypes/types'
 
@@ -28,7 +28,8 @@ export namespace Manager.Events.Type{
       [ObjectTypeEnum.ECabinetRow]: new ObjectTypeAbstract.Events.Type.ECabinetRow(),
       [ObjectTypeEnum.MapPicker]: new ObjectTypeAbstract.Events.Type.MapPicker(),
       [ObjectTypeEnum.FieldCode]: new ObjectTypeAbstract.Events.Type.FieldCode(),
-      [ObjectTypeEnum.DataSelect]: new ObjectTypeAbstract.Events.Type.DataSelect()
+      [ObjectTypeEnum.DataSelect]: new ObjectTypeAbstract.Events.Type.DataSelect(),
+      [ObjectTypeEnum.UploadFile]: new ObjectTypeAbstract.Events.Type.UploadFile()
     }
   }
 

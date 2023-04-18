@@ -278,4 +278,14 @@ export namespace Manager.Events.Type{
       return DataSelect.getComponent()
     }
   }
+
+  export class UploadFile extends IChangeStat {
+    public static SetComponent (getComponent: () => any): void {
+      UploadFile.getComponent = getComponent
+    }
+
+    public GetComponent (): any {
+      return UploadFile.getComponent()
+    }
+  }
 }
