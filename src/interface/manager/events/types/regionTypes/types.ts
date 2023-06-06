@@ -27,7 +27,7 @@ export namespace Manager.Events.Type{
       [ObjectTypeEnum.SelectButton]: new ObjectTypeAbstract.Events.Type.SelectButton(),
       [ObjectTypeEnum.ECabinetRow]: new ObjectTypeAbstract.Events.Type.ECabinetRow(),
       [ObjectTypeEnum.MapPicker]: new ObjectTypeAbstract.Events.Type.MapPicker(),
-      [ObjectTypeEnum.FieldCode]: new ObjectTypeAbstract.Events.Type.FieldCode(),
+      [ObjectTypeEnum.MultiMedia]: new ObjectTypeAbstract.Events.Type.MultiMedia(),
       [ObjectTypeEnum.DataSelect]: new ObjectTypeAbstract.Events.Type.DataSelect(),
       [ObjectTypeEnum.UploadFile]: new ObjectTypeAbstract.Events.Type.UploadFile()
     }
@@ -53,7 +53,7 @@ export namespace Manager.Events.Type{
   export class Show extends RegionAbstract {
     public ObjectTypes: { [index: number]: ObjectTypeAbstract.Events.Type.ObjectTypeAbstract } =
       {
-        // [ObjectTypeEnum.ShowResolve]: new ObjectTypeAbstract.Events.Type.ShowResolve()
+        [ObjectTypeEnum.MultiMedia]: new ObjectTypeAbstract.Events.Type.MultiMedia()
       }
   }
 

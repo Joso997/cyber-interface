@@ -259,13 +259,13 @@ export namespace Manager.Events.Type{
     }
   }
 
-  export class FieldCode extends IChangeStat {
+  export class MultiMedia extends IChangeStat {
     public static SetComponent (getComponent: () => any): void {
-      FieldCode.getComponent = getComponent
+      MultiMedia.getComponent = getComponent
     }
 
     public GetComponent (): any {
-      return FieldCode.getComponent()
+      return MultiMedia.getComponent()
     }
   }
 

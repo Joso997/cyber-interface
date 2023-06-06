@@ -15,7 +15,8 @@ export enum StatTypeEnum {
   AutoComplete,
   BelongsTo,
   ErrorMessage,
-  IsValid
+  IsValid,
+  Order
 }
 
 export class StatType {
@@ -35,6 +36,7 @@ export class StatType {
    [StatTypeEnum.AutoComplete]: new Manager.Events.Type.AutoComplete().CreateStat,
    [StatTypeEnum.BelongsTo]: new Manager.Events.Type.BelongsTo().CreateStat,
    [StatTypeEnum.ErrorMessage]: new Manager.Events.Type.ErrorMessage().CreateStat,
-   [StatTypeEnum.IsValid]: new Manager.Events.Type.IsValid().CreateStat
+   [StatTypeEnum.IsValid]: new Manager.Events.Type.IsValid().CreateStat,
+   [StatTypeEnum.Order]: new Manager.Events.Type.Order().CreateStat
  }
 }

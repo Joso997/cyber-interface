@@ -20,7 +20,7 @@ export enum ObjectTypeEnum {
   ECabinetColumn,
   ModalForm,
   MapPicker,
-  FieldCode,
+  MultiMedia,
   DataSelect,
   UploadFile
 }
@@ -47,7 +47,7 @@ export class ObjectType {
       [ObjectTypeEnum.ECabinetColumn]: Manager.Events.Type.ECabinetColumn.SetComponent,
       [ObjectTypeEnum.ModalForm]: Manager.Events.Type.ModalForm.SetComponent,
       [ObjectTypeEnum.MapPicker]: Manager.Events.Type.MapPicker.SetComponent,
-      [ObjectTypeEnum.FieldCode]: Manager.Events.Type.FieldCode.SetComponent,
+      [ObjectTypeEnum.MultiMedia]: Manager.Events.Type.MultiMedia.SetComponent,
       [ObjectTypeEnum.DataSelect]: Manager.Events.Type.DataSelect.SetComponent,
       [ObjectTypeEnum.UploadFile]: Manager.Events.Type.UploadFile.SetComponent
     }

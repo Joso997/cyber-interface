@@ -163,4 +163,14 @@ export namespace Manager.Events.Type{
     }
   }
 
+  export class Order extends StatAbstract {
+    public CreateStat (): StatAbstract {
+      return new Order()
+    }
+
+    public CheckRequirements (_object: any): void {
+      throw new Error('Method not implemented.')
+    }
+  }
+
 }
