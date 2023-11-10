@@ -26,7 +26,9 @@ export namespace Manager.Events.Type{
       [ObjectTypeEnum.ECabinetRow]: new ObjectTypeAbstract.Events.Type.ECabinetRow(),
       [ObjectTypeEnum.MapPicker]: new ObjectTypeAbstract.Events.Type.MapPicker(),
       [ObjectTypeEnum.MultiMedia]: new ObjectTypeAbstract.Events.Type.MultiMedia(),
-      [ObjectTypeEnum.UploadFile]: new ObjectTypeAbstract.Events.Type.UploadFile()
+      [ObjectTypeEnum.UploadFile]: new ObjectTypeAbstract.Events.Type.UploadFile(),
+      [ObjectTypeEnum.InputGroup]: new ObjectTypeAbstract.Events.Type.InputGroup(),
+      [ObjectTypeEnum.Label]: new ObjectTypeAbstract.Events.Type.Label(),
     }
   }
 
@@ -83,7 +85,8 @@ export namespace Manager.Events.Type{
     public ObjectTypes: { [index: number]: ObjectTypeAbstract.Events.Type.ObjectTypeAbstract } =
         {
           [ObjectTypeEnum.Field]: new ObjectTypeAbstract.Events.Type.Field(),
-          [ObjectTypeEnum.Button]: new ObjectTypeAbstract.Events.Type.Button()
+          [ObjectTypeEnum.Button]: new ObjectTypeAbstract.Events.Type.Button(),
+          [ObjectTypeEnum.Label]: new ObjectTypeAbstract.Events.Type.Label()
         }
   }
 
