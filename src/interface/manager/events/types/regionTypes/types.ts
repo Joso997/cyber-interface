@@ -23,12 +23,9 @@ export namespace Manager.Events.Type{
       [ObjectTypeEnum.DataList]: new ObjectTypeAbstract.Events.Type.DataList(),
       [ObjectTypeEnum.SelectList]: new ObjectTypeAbstract.Events.Type.SelectList(),
       [ObjectTypeEnum.Radio]: new ObjectTypeAbstract.Events.Type.Radio(),
-      [ObjectTypeEnum.FieldButton]: new ObjectTypeAbstract.Events.Type.FieldButton(),
-      [ObjectTypeEnum.SelectButton]: new ObjectTypeAbstract.Events.Type.SelectButton(),
       [ObjectTypeEnum.ECabinetRow]: new ObjectTypeAbstract.Events.Type.ECabinetRow(),
       [ObjectTypeEnum.MapPicker]: new ObjectTypeAbstract.Events.Type.MapPicker(),
       [ObjectTypeEnum.MultiMedia]: new ObjectTypeAbstract.Events.Type.MultiMedia(),
-      [ObjectTypeEnum.DataSelect]: new ObjectTypeAbstract.Events.Type.DataSelect(),
       [ObjectTypeEnum.UploadFile]: new ObjectTypeAbstract.Events.Type.UploadFile()
     }
   }
@@ -50,20 +47,6 @@ export namespace Manager.Events.Type{
     }
   }
 
-  export class Show extends RegionAbstract {
-    public ObjectTypes: { [index: number]: ObjectTypeAbstract.Events.Type.ObjectTypeAbstract } =
-      {
-        [ObjectTypeEnum.MultiMedia]: new ObjectTypeAbstract.Events.Type.MultiMedia()
-      }
-  }
-
-  export class TableRow extends RegionAbstract {
-    public ObjectTypes: { [index: number]: ObjectTypeAbstract.Events.Type.ObjectTypeAbstract } =
-      {
-        // [ObjectTypeEnum.ShowResolve]: new ObjectTypeAbstract.Events.Type.ShowResolve()
-      }
-  }
-
   export class Footer extends RegionAbstract {
     public ObjectTypes: { [index: number]: ObjectTypeAbstract.Events.Type.ObjectTypeAbstract } =
       {
@@ -74,14 +57,8 @@ export namespace Manager.Events.Type{
   export class List extends RegionAbstract {
     public ObjectTypes: { [index: number]: ObjectTypeAbstract.Events.Type.ObjectTypeAbstract } =
       {
-        [ObjectTypeEnum.ListRow]: new ObjectTypeAbstract.Events.Type.ListRow()
-      }
-  }
-
-  export class ListRow extends RegionAbstract {
-    public ObjectTypes: { [index: number]: ObjectTypeAbstract.Events.Type.ObjectTypeAbstract } =
-      {
-        [ObjectTypeEnum.Button]: new ObjectTypeAbstract.Events.Type.Button()
+        [ObjectTypeEnum.Button]: new ObjectTypeAbstract.Events.Type.Button(),
+        [ObjectTypeEnum.InputGroup]: new ObjectTypeAbstract.Events.Type.InputGroup()
       }
   }
 
@@ -102,12 +79,12 @@ export namespace Manager.Events.Type{
       }
   }
 
-  export class MapPicker extends RegionAbstract {
+  export class Placeholder extends RegionAbstract {
     public ObjectTypes: { [index: number]: ObjectTypeAbstract.Events.Type.ObjectTypeAbstract } =
-      {
-        [ObjectTypeEnum.Field]: new ObjectTypeAbstract.Events.Type.Field(),
-        [ObjectTypeEnum.Button]: new ObjectTypeAbstract.Events.Type.Button()
-      }
+        {
+          [ObjectTypeEnum.Field]: new ObjectTypeAbstract.Events.Type.Field(),
+          [ObjectTypeEnum.Button]: new ObjectTypeAbstract.Events.Type.Button()
+        }
   }
 
 }

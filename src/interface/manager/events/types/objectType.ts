@@ -1,4 +1,4 @@
-import { Manager } from './objectTypes/types'
+import {Manager} from './objectTypes/types'
 
 export enum ObjectTypeEnum {
   Row,
@@ -13,16 +13,14 @@ export enum ObjectTypeEnum {
   Radio,
   Column,
   ColumnButton,
-  FieldButton,
-  SelectButton,
-  ListRow,
+  InputGroup,
   ECabinetRow,
   ECabinetColumn,
   ModalForm,
   MapPicker,
   MultiMedia,
-  DataSelect,
-  UploadFile
+  UploadFile,
+  Label
 }
 
 export class ObjectType {
@@ -40,15 +38,13 @@ export class ObjectType {
       [ObjectTypeEnum.Radio]: Manager.Events.Type.Radio.SetComponent,
       [ObjectTypeEnum.Column]: Manager.Events.Type.Column.SetComponent,
       [ObjectTypeEnum.ColumnButton]: Manager.Events.Type.ColumnButton.SetComponent,
-      [ObjectTypeEnum.FieldButton]: Manager.Events.Type.FieldButton.SetComponent,
-      [ObjectTypeEnum.SelectButton]: Manager.Events.Type.SelectButton.SetComponent,
-      [ObjectTypeEnum.ListRow]: Manager.Events.Type.ListRow.SetComponent,
+      [ObjectTypeEnum.InputGroup]: Manager.Events.Type.InputGroup.SetComponent,
       [ObjectTypeEnum.ECabinetRow]: Manager.Events.Type.ECabinetRow.SetComponent,
       [ObjectTypeEnum.ECabinetColumn]: Manager.Events.Type.ECabinetColumn.SetComponent,
       [ObjectTypeEnum.ModalForm]: Manager.Events.Type.ModalForm.SetComponent,
       [ObjectTypeEnum.MapPicker]: Manager.Events.Type.MapPicker.SetComponent,
       [ObjectTypeEnum.MultiMedia]: Manager.Events.Type.MultiMedia.SetComponent,
-      [ObjectTypeEnum.DataSelect]: Manager.Events.Type.DataSelect.SetComponent,
-      [ObjectTypeEnum.UploadFile]: Manager.Events.Type.UploadFile.SetComponent
+      [ObjectTypeEnum.UploadFile]: Manager.Events.Type.UploadFile.SetComponent,
+      [ObjectTypeEnum.Label]: Manager.Events.Type.Label.SetComponent,
     }
 }

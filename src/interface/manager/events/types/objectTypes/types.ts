@@ -189,36 +189,6 @@ export namespace Manager.Events.Type{
     }
   }
 
-  export class FieldButton extends IChangeStat {
-    public static SetComponent (getComponent: () => any): void {
-      FieldButton.getComponent = getComponent
-    }
-
-    public GetComponent (): any {
-      return FieldButton.getComponent()
-    }
-  }
-
-  export class SelectButton extends IChangeStat {
-    public static SetComponent (getComponent: () => any): void {
-      SelectButton.getComponent = getComponent
-    }
-
-    public GetComponent (): any {
-      return SelectButton.getComponent()
-    }
-  }
-
-  export class ListRow extends IChangeStat {
-    public static SetComponent (getComponent: () => any): void {
-      ListRow.getComponent = getComponent
-    }
-
-    public GetComponent (): any {
-      return ListRow.getComponent()
-    }
-  }
-
   export class ECabinetRow extends IChangeStat {
     public static SetComponent (getComponent: () => any): void {
       ECabinetRow.getComponent = getComponent
@@ -269,13 +239,13 @@ export namespace Manager.Events.Type{
     }
   }
 
-  export class DataSelect extends IChangeStat {
+  export class InputGroup extends IChangeStat {
     public static SetComponent (getComponent: () => any): void {
-      DataSelect.getComponent = getComponent
+      InputGroup.getComponent = getComponent
     }
 
     public GetComponent (): any {
-      return DataSelect.getComponent()
+      return InputGroup.getComponent()
     }
   }
 
@@ -286,6 +256,16 @@ export namespace Manager.Events.Type{
 
     public GetComponent (): any {
       return UploadFile.getComponent()
+    }
+  }
+
+  export class Label extends IChangeStat {
+    public static SetComponent (getComponent: () => any): void {
+      Label.getComponent = getComponent
+    }
+
+    public GetComponent (): any {
+      return Label.getComponent()
     }
   }
 }

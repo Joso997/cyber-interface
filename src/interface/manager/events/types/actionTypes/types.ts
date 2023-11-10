@@ -114,4 +114,15 @@ export namespace Manager.Events.Type{
       }
     }
   }
+
+  export class AClick extends MethodTypeAbstract {
+    public Act (_object: ObjectTemplate, _data : any, _invokeLogic: LogicDelegate): boolean {
+      _invokeLogic({ subObjectType: _object.SubObjectEnum, payload: _data })
+      return true
+    }
+
+    public Enact (): void {
+      throw new Error('Method not implemented.')
+    }
+  }
 }
