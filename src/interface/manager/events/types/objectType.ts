@@ -30,7 +30,7 @@ export class ObjectType {
       [ObjectTypeEnum.Row]: Manager.Events.Type.Row.SetComponent,
       [ObjectTypeEnum.Button]: Manager.Events.Type.Button.SetComponent,
       [ObjectTypeEnum.Text]: Manager.Events.Type.Text.SetComponent,
-      [ObjectTypeEnum.Output]: Manager.Events.Type.Output.SetComponent,
+      [ObjectTypeEnum.Output]: Manager.Events.Type.Output.SetComponent, // Free to use.
       [ObjectTypeEnum.Alert]: Manager.Events.Type.Alert.SetComponent,
       [ObjectTypeEnum.CheckBox]: Manager.Events.Type.CheckBox.SetComponent,
       [ObjectTypeEnum.DataList]: Manager.Events.Type.DataList.SetComponent,
