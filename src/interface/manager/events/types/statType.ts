@@ -16,7 +16,8 @@ export enum StatTypeEnum {
   BelongsTo,
   ErrorMessage,
   IsValid,
-  Order
+  Order,
+  DependsOn
 }
 
 export class StatType {
@@ -37,6 +38,7 @@ export class StatType {
    [StatTypeEnum.BelongsTo]: new Manager.Events.Type.BelongsTo().CreateStat,
    [StatTypeEnum.ErrorMessage]: new Manager.Events.Type.ErrorMessage().CreateStat,
    [StatTypeEnum.IsValid]: new Manager.Events.Type.IsValid().CreateStat,
-   [StatTypeEnum.Order]: new Manager.Events.Type.Order().CreateStat
+   [StatTypeEnum.Order]: new Manager.Events.Type.Order().CreateStat,
+   [StatTypeEnum.DependsOn]: new Manager.Events.Type.DependsOn().CreateStat
  }
 }

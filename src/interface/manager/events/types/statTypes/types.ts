@@ -172,5 +172,14 @@ export namespace Manager.Events.Type{
       throw new Error('Method not implemented.')
     }
   }
+  export class DependsOn extends StatAbstract {
+    public CreateStat (): StatAbstract {
+      return new DependsOn()
+    }
+
+    public CheckRequirements (_object: any): void {
+      throw new Error('Method not implemented.')
+    }
+  }
 
 }
