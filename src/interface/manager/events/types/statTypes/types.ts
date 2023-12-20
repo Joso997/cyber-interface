@@ -182,4 +182,14 @@ export namespace Manager.Events.Type{
     }
   }
 
+  export class Name extends StatAbstract {
+    public CreateStat (): StatAbstract {
+      return new Name()
+    }
+
+    public CheckRequirements (_object: any): void {
+      throw new Error('Method not implemented.')
+    }
+  }
+
 }

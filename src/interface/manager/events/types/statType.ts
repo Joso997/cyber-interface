@@ -17,7 +17,8 @@ export enum StatTypeEnum {
   ErrorMessage,
   IsValid,
   Order,
-  DependsOn
+  DependsOn,
+  Name
 }
 
 export class StatType {
@@ -39,6 +40,7 @@ export class StatType {
    [StatTypeEnum.ErrorMessage]: new Manager.Events.Type.ErrorMessage().CreateStat,
    [StatTypeEnum.IsValid]: new Manager.Events.Type.IsValid().CreateStat,
    [StatTypeEnum.Order]: new Manager.Events.Type.Order().CreateStat,
-   [StatTypeEnum.DependsOn]: new Manager.Events.Type.DependsOn().CreateStat
+   [StatTypeEnum.DependsOn]: new Manager.Events.Type.DependsOn().CreateStat,
+   [StatTypeEnum.Name]: new Manager.Events.Type.Name().CreateStat
  }
 }
