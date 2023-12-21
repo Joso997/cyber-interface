@@ -1,4 +1,4 @@
-import { Manager } from './statTypes/types'
+import {Manager} from './statTypes/types'
 
 export enum StatTypeEnum {
   Label,
@@ -18,7 +18,9 @@ export enum StatTypeEnum {
   IsValid,
   Order,
   DependsOn,
-  Name
+  Name,
+  Inherit,
+  BreakLine
 }
 
 export class StatType {
@@ -41,6 +43,8 @@ export class StatType {
    [StatTypeEnum.IsValid]: new Manager.Events.Type.IsValid().CreateStat,
    [StatTypeEnum.Order]: new Manager.Events.Type.Order().CreateStat,
    [StatTypeEnum.DependsOn]: new Manager.Events.Type.DependsOn().CreateStat,
-   [StatTypeEnum.Name]: new Manager.Events.Type.Name().CreateStat
+   [StatTypeEnum.Name]: new Manager.Events.Type.Name().CreateStat,
+   [StatTypeEnum.Inherit]: new Manager.Events.Type.Inherit().CreateStat,
+   [StatTypeEnum.BreakLine]: new Manager.Events.Type.BreakLine().CreateStat
  }
 }

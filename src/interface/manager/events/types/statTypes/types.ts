@@ -192,4 +192,24 @@ export namespace Manager.Events.Type{
     }
   }
 
+  export class Inherit extends StatAbstract {
+    public CreateStat (): StatAbstract {
+      return new Inherit()
+    }
+
+    public CheckRequirements (_object: any): void {
+      throw new Error('Method not implemented.')
+    }
+  }
+
+  export class BreakLine extends StatAbstract {
+    public CreateStat (): StatAbstract {
+      return new BreakLine()
+    }
+
+    public CheckRequirements (_object: any): void {
+      throw new Error('Method not implemented.')
+    }
+  }
+
 }
