@@ -212,4 +212,24 @@ export namespace Manager.Events.Type{
     }
   }
 
+  export class ValueIndices extends StatAbstract {
+    public CreateStat (): StatAbstract {
+      return new ValueIndices()
+    }
+
+    public CheckRequirements (_object: any): void {
+      throw new Error('Method not implemented.')
+    }
+  }
+
+  export class OptionIndices extends StatAbstract {
+    public CreateStat (): StatAbstract {
+      return new OptionIndices()
+    }
+
+    public CheckRequirements (_object: any): void {
+      throw new Error('Method not implemented.')
+    }
+  }
+
 }
