@@ -232,4 +232,14 @@ export namespace Manager.Events.Type{
     }
   }
 
+  export class Option extends StatAbstract {
+    public CreateStat (): StatAbstract {
+      return new Option()
+    }
+
+    public CheckRequirements (_object: any): void {
+      throw new Error('Method not implemented.')
+    }
+  }
+
 }

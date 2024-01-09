@@ -22,7 +22,8 @@ export enum StatTypeEnum {
   Inherit,
   BreakLine,
   ValueIndices,
-  OptionIndices
+  OptionIndices,
+  Option
 }
 
 export class StatType {
@@ -49,6 +50,7 @@ export class StatType {
    [StatTypeEnum.Inherit]: new Manager.Events.Type.Inherit().CreateStat,
    [StatTypeEnum.BreakLine]: new Manager.Events.Type.BreakLine().CreateStat,
    [StatTypeEnum.ValueIndices]: new Manager.Events.Type.ValueIndices().CreateStat,
-   [StatTypeEnum.OptionIndices]: new Manager.Events.Type.OptionIndices().CreateStat
+   [StatTypeEnum.OptionIndices]: new Manager.Events.Type.OptionIndices().CreateStat,
+   [StatTypeEnum.Option]: new Manager.Events.Type.Option().CreateStat
  }
 }
