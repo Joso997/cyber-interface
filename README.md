@@ -127,64 +127,78 @@ Next add a component, as an example it is provided a hybrid component that is bo
 <template>
   <tr v-if="renderComponent">
     <th scope="row"><img alt="arrow" width="27" src="../assets/arrow.png"></th>
-    <component v-for="(_objectTemplate, key, index) in objectTemplates" :key="`${ key }-${ index }-${ Math.random().toString(36).slice(2, 7) }`"  :is="getComponent(_objectTemplate.Region, _objectTemplate.ObjectEnum)" :object='_objectTemplate'></component>
+    <component v-for="(_objectTemplate, key, index) in objectTemplates" :key="`${ key }-${ index }-${ Math.random().toString(36).slice(2, 7) }`"  :is="getComponent(_objectTemplate.Region, _objectTemplate.ObjectEnum)" :entity='resolveEntities(_objectTemplate)' :object='_objectTemplate'></component>
   </tr>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
-import { Manager } from '@/mechanics/rowMechanic'
-import {
-  ObjectTemplate,
-  MechanicAbstract,
-  ObjectType,
-  StatTypeEnum,
-  ObjectTypeEnum,
-  RegionType,
-  RegionEnum,
-  SubObjectTypeEnum, ActionTypeEnum, StatType
-} from '@cybertale/interface'
-@Options({
-  props: {
-    entity: Array,
-    index: Number,
-    rerender: Function
-  }
-})
-export default class RowComponent extends Vue {
-  rerender!: () => void
-  mechanic: MechanicAbstract = Manager.Mechanic.RowMechanic.getInstance(this.rerender.bind(this))
-  regionEnum = RegionEnum
-  statTypeEnum = StatTypeEnum
-  objectTypeEnum = ObjectTypeEnum
-  objectType = ObjectType
-  renderComponent= false
-  entity!: ObjectTemplate[]
-  objectTemplates!: ObjectTemplate[]
-  index!: number
-
-  mounted () {
-    this.objectTemplates = this.mechanic.InitSet(this.entity)
-    if (this.objectTemplates !== undefined) {
-      this.objectTemplates = this.mechanic.Append(
-        [
-          new ObjectTemplate(RegionEnum.TableColumn, ObjectTypeEnum.ColumnButton, SubObjectTypeEnum.ParentObject, ActionTypeEnum.None, {
-            [StatTypeEnum.Id]: StatType.StatTypes[StatTypeEnum.Id]().CreateStat().InitData(this.objectTemplates[0].Stats[StatTypeEnum.Id].Data)
-          })
-        ]
-      )
+  import { Options, Vue } from 'vue-class-component'
+  import { Manager } from '@/mechanics/rowMechanic'
+  import {
+    ObjectTemplate,
+    MechanicAbstract,
+    ObjectType,
+    StatTypeEnum,
+    ObjectTypeEnum,
+    RegionType,
+    RegionEnum,
+    SubObjectTypeEnum, ActionTypeEnum, StatType
+  } from '@cybertale/interface'
+  @Options({
+    props: {
+      entity: Array,
+      index: Number,
+      rerender: Function
     }
-    this.renderComponent = true
-  }
+  })
+  export default class RowComponent extends Vue {
+    rerender!: () => void
+    mechanic: MechanicAbstract = Manager.Mechanic.RowMechanic.getInstance(this.rerender.bind(this))
+    regionEnum = RegionEnum
+    statTypeEnum = StatTypeEnum
+    objectTypeEnum = ObjectTypeEnum
+    objectType = ObjectType
+    renderComponent= false
+    entity!: ObjectTemplate[]
+    objectTemplates!: ObjectTemplate[]
+    index!: number
+    belongsTo!: { [key: string]: ObjectTemplate[] }
 
-  beforeUnmount () {
-    this.mechanic.UnsubscribeConditions()
-  }
+    mounted () {
+      this.belongsTo = {}
+      const itemsToDelete = []
+      for (const item of this.entity) {
+        if (item.Stats[StatTypeEnum.BelongsTo] !== undefined) {
+          const data = item.Stats[StatTypeEnum.BelongsTo].Data
+          this.belongsTo[data] = this.belongsTo[data] || []
+          this.belongsTo[data].push(item)
+          itemsToDelete.push(this.entity.indexOf(item))
+        }
+      }
+      const tempEntity = JSON.parse(JSON.stringify(this.entity)) // TODO find a better fix (One way would be to add stats to getComponent and to not show if belongs
+      for (let i = itemsToDelete.length - 1; i >= 0; i--) {
+        tempEntity.splice(itemsToDelete[i], 1)
+      }
+      this.objectTemplates = this.mechanic.InitSet(tempEntity)
+      this.renderComponent = true
+    }
 
-  getComponent (_regionEnum : number, _objectEnum: number) {
-    return RegionType.RegionTypes[_regionEnum].ObjectTypes[_objectEnum].GetComponent()
+    beforeUnmount () {
+      this.mechanic.UnsubscribeConditions()
+    }
+
+    resolveEntities (_object: ObjectTemplate) {
+      for (const tag of Object.keys(this.belongsTo)) {
+        if (_object.Stats[StatTypeEnum.Tag].Data === tag) {
+          return this.belongsTo[tag]
+        }
+      }
+    }
+
+    getComponent (_regionEnum : number, _objectEnum: number) {
+      return RegionType.RegionTypes[_regionEnum].ObjectTypes[_objectEnum].GetComponent()
+    }
   }
-}
 </script>
 ```
 
@@ -199,69 +213,262 @@ mechanic: MechanicAbstract = new Manager.Mechanic.FormMechanic(this.reRender.bin
 To illustrate the potential use of stats and how to link html events with entities, here is an example of a pure entity:
 ```vue
 <template>
-  <div class="mb-3 row justify-content-md-center">
-    <div class="col-lg"></div>
-    <div class="col input-group">
-      <label :title="tooltipCase()" class="input-group-text" :hidden="specialCase()">{{object.Stats[statTypeEnum.Label].Data }}</label>
-      <input class="form-control"
-             :id="object.Stats[statTypeEnum.Tag].Data"
-             :required="attributeCheck(statTypeEnum.Required)"
-             :disabled="attributeCheck(statTypeEnum.Disabled)"
-             :autocomplete="`${object.Stats[statTypeEnum.AutoComplete] !== undefined?object.Stats[statTypeEnum.AutoComplete].Data:''}`"
-             :class="object.Stats[statTypeEnum.Design].Data+' '+validate()"
-             :type="`${object.Stats[statTypeEnum.ElementType] !== undefined?object.Stats[statTypeEnum.ElementType].Data:''}`"
-             :value="object.Stats[statTypeEnum.Value].Data"
-             :placeholder="`${object.Stats[statTypeEnum.Placeholder].Data}`"
-             @input="regionType.RegionTypes[object.Region].ObjectTypes[object.ObjectEnum].ChooseSubType(object, $event.target.value)">
-      <slot></slot>
-      <div class="invalid-feedback">{{ `${object.Stats[statTypeEnum.ErrorMessage] !== undefined?object.Stats[statTypeEnum.ErrorMessage].Data:''}` }}</div>
+  <input class="form-control"
+         :id="object?.Stats[statTypeEnum.Tag].Data"
+         :required="attributeCheck(statTypeEnum.Required)"
+         :disabled="attributeCheck(statTypeEnum.Disabled)"
+         :autocomplete="returnIfExists(statTypeEnum.AutoComplete)"
+         :class="object?.Stats[statTypeEnum.Design].Data+' '+validate()"
+         :type="getValue(statTypeEnum.ElementType)"
+         :value="labelToValue()"
+         :placeholder="returnIfExists(statTypeEnum.Placeholder)"
+         @input="regionType.RegionTypes[object?.Region].ObjectTypes[object?.ObjectEnum].ChooseSubType(object as ObjectTemplate, $event.target.value)">
+  <div class="invalid-feedback">{{ returnIfExists(statTypeEnum.ErrorMessage) }}</div>
+</template>
+
+<script lang="ts">
+  import { Options, Vue } from 'vue-class-component'
+  import { ObjectTemplate, ObjectType, ObjectTypeEnum, RegionEnum, RegionType, StatTypeEnum } from '@cybertale/interface'
+  import { TagHelpers } from '@/definitions/tagHelpers'
+  import CyberTags = TagHelpers.CyberTags
+
+  @Options({
+    computed: {
+      ObjectTemplate () {
+        return ObjectTemplate
+      }
+    },
+    props: {
+      object: ObjectTemplate
+    }
+  })
+  export default class FieldComponent extends Vue {
+    statTypeEnum = StatTypeEnum
+    objectTypeEnum = ObjectTypeEnum
+    objectType = ObjectType
+    regionType = RegionType
+    regionEnum = RegionEnum
+    object!: ObjectTemplate
+
+    labelToValue (): string {
+      if (this.returnIfExists(this.statTypeEnum.Tag).includes(CyberTags.label) && this.attributeCheck(this.statTypeEnum.Disabled)) {
+        return this.returnIfExists(this.statTypeEnum.Label)
+      }
+      return this.getValue(StatTypeEnum.Value, StatTypeEnum.ValueIndices)
+    }
+
+    getValue (statEnum: number, indexStatTypeEnum = StatTypeEnum.Option) : string {
+      if (this.object.Stats[statEnum]) {
+        if (this.object.Stats[indexStatTypeEnum] && this.object.Stats[statEnum] && this.isJSON(this.object.Stats[statEnum].Data)) {
+          const data = JSON.parse(this.object.Stats[statEnum].Data)
+          return data[Number(this.object.Stats[indexStatTypeEnum].Data)]
+        } else {
+          return this.object.Stats[statEnum].Data
+        }
+      }
+      return ''
+    }
+
+    isJSON (str: string): boolean {
+      let temp = null
+      try {
+        temp = JSON.parse(str)
+      } catch (e) {
+        return false
+      }
+      return Array.isArray(temp)
+    }
+
+    returnIfExists (tag: number): string {
+      if (this.object.Stats[tag]) {
+        return this.object.Stats[tag].Data
+      }
+      return ''
+    }
+
+    validate () : string {
+      if (this.object.Stats[this.statTypeEnum.IsValid] === undefined) { return '' }
+      if (this.object.Stats[this.statTypeEnum.IsValid].Data === '') { return '' }
+      if (this.object.Stats[this.statTypeEnum.IsValid].Data) { return 'is-valid' }
+      if (this.object.Stats[this.statTypeEnum.ErrorMessage].Data === null) { return '' }
+      if (this.object.Stats[this.statTypeEnum.ErrorMessage].Data !== '') { return 'is-invalid' }
+      return ''
+    }
+
+    attributeCheck (statType : number) : boolean | string {
+      if (this.object.Stats[statType] === undefined) { return false }
+      if (this.object.Stats[statType].Data === '') { return false }
+      return this.object.Stats[statType].Data
+    }
+
+    tooltipCase () : string | undefined {
+      if (this.object !== undefined) {
+        if (this.object.Stats[this.statTypeEnum.Tooltip] !== undefined) {
+          return this.object.Stats[this.statTypeEnum.Tooltip].Data
+        }
+      }
+    }
+  }
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+  .form-check .form-check-input{
+    float: none;
+  }
+  .form-check-input{
+    margin-right: 1%;
+  }
+  .form-check-input:checked {
+    background-color: #606467;
+    border-color: #606467;
+  }
+</style>
+```
+
+## Container Scheme
+Similar to HTML fieldset or Bootstrap input-group equivalent there is an ability to define a whole form on a backend but only send the container part as a submit request. It allows for building your own form fields using generic HTML field elements or personal custom elements:
+```vue
+<template>
+  <div v-if="!reRender">
+    <div v-if="returnIfExists(statTypeEnum.ElementType) === 'button'" class="mb-3 row justify-content-md-center">
+      <button data-bs-toggle="tooltip" data-bs-placement="top"
+              :class="object.Stats[statTypeEnum.Design].Data"
+              @click.prevent='regionType.RegionTypes[object.Region].ObjectTypes[objectTypeEnum.Button].ChooseSubType(JSON.parse(JSON.stringify(objectCopy(object as ObjectTemplate))) as ObjectTemplate)'>
+        {{object.Stats[statTypeEnum.Label].Data}}
+      </button>
     </div>
-    <div class="col-lg"></div>
+    <div v-else class="mb-3 row justify-content-md-center">
+      <div class="col-lg"></div>
+      <div class="col">
+        <div class="input-group" v-for="(group, index) in groupedObjectTemplates" :key="`${ index }-${ Math.random().toString(36).slice(2, 7) }`">
+          <component v-for="(_objectTemplate, key) in group" :is="getComponent(_objectTemplate.Region, _objectTemplate.ObjectEnum)" :object='_objectTemplate' :key="`${ key }-${ Math.random().toString(36).slice(2, 7) }`"></component>
+        </div>
+      </div>
+      <div class="col-lg"></div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
-import { ObjectTemplate, ObjectType, StatTypeEnum, ObjectTypeEnum, RegionType, RegionEnum } from '@cybertale/interface'
+import { Manager } from '@/mechanics/placeholderMechanic'
+import {
+  ActionTypeEnum,
+  MechanicAbstract,
+  ObjectTemplate,
+  ObjectType,
+  ObjectTypeEnum,
+  RegionEnum,
+  RegionType,
+  StatType,
+  StatTypeEnum,
+  SubObjectTypeEnum
+} from '@cybertale/interface'
+
 @Options({
+  computed: {
+    ObjectTemplate () {
+      return ObjectTemplate
+    }
+  },
   props: {
-    object: ObjectTemplate
+    entity: Array,
+    object: ObjectTemplate,
+    index: Number,
+    pageRefresh: {
+      type: Boolean,
+      default: true
+    }
   }
 })
-export default class InputComponent extends Vue {
+export default class InputGroupComponent extends Vue {
+  mechanic: MechanicAbstract = new Manager.Mechanic.PlaceholderMechanic()
+  objectTemplate = ObjectTemplate
+  regionEnum = RegionEnum
+  regionType = RegionType
   statTypeEnum = StatTypeEnum
   objectTypeEnum = ObjectTypeEnum
+  subObjectTypeEnum = SubObjectTypeEnum
+  actionTypeEnum = ActionTypeEnum
   objectType = ObjectType
-  regionType = RegionType
-  regionEnum = RegionEnum
   object!: ObjectTemplate
+  entity!: ObjectTemplate[]
+  index!: number
+  objectTemplates: ObjectTemplate[] = []
+  pageRefresh!: boolean
 
-  validate () : string {
-    if (this.object.Stats[this.statTypeEnum.IsValid] === undefined) { return '' }
-    if (this.object.Stats[this.statTypeEnum.IsValid].Data === '') { return '' }
-    if (this.object.Stats[this.statTypeEnum.IsValid].Data) { return 'is-valid' }
-    if (this.object.Stats[this.statTypeEnum.ErrorMessage].Data === null) { return '' }
-    if (this.object.Stats[this.statTypeEnum.ErrorMessage].Data !== '') { return 'is-invalid' }
+  get groupedObjectTemplates () : ObjectTemplate[][] {
+    const groups = []
+    let currentGroup: ObjectTemplate[] = []
+
+    this.objectTemplates.forEach(_objectTemplate => {
+      currentGroup.push(_objectTemplate)
+
+      if (_objectTemplate.Stats[StatTypeEnum.BreakLine]) {
+        groups.push(currentGroup)
+        currentGroup = []
+      }
+    })
+
+    // Push the last group if it's not empty
+    if (currentGroup.length > 0) {
+      groups.push(currentGroup)
+    }
+
+    return groups
+  }
+
+  returnIfExists (tag: number): string {
+    if (this.object.Stats[tag]) {
+      return this.object.Stats[tag].Data
+    }
     return ''
   }
 
-  specialCase () : boolean {
-    if (this.object.Stats[this.statTypeEnum.ElementType] === undefined) { return false }
-    return this.object.Stats[this.statTypeEnum.ElementType].Data === 'hidden'
+  mounted () : void {
+    this.objectTemplates = this.mechanic.InitSet(this.entityCopy(this.entity))
   }
 
-  attributeCheck (statType : number) : boolean | string {
-    if (this.object.Stats[statType] === undefined) { return false }
-    if (this.object.Stats[statType].Data === '') { return false }
-    return this.object.Stats[statType].Data
+  get reRender () : boolean {
+    this.objectTemplates = this.mechanic.InitSet(this.entityCopy(this.entity))
+    return this.pageRefresh
   }
 
-  tooltipCase () : string | undefined {
-    if (this.object !== undefined) {
-      if (this.object.Stats[this.statTypeEnum.Tooltip] !== undefined) {
-        return this.object.Stats[this.statTypeEnum.Tooltip].Data
+  objectCopy (_object : ObjectTemplate) : ObjectTemplate {
+    if (_object.Stats[StatTypeEnum.Inherit]) {
+      for (const stat of JSON.parse(_object.Stats[StatTypeEnum.Inherit].Data)) {
+        if (_object.Stats[stat]) {
+          _object.Stats[stat].Data = this.object.Stats[stat].Data
+        } else if (this.object.Stats[stat]) {
+          _object.Stats[stat] = StatType.StatTypes[stat]()
+          _object.Stats[stat].Data = this.object.Stats[stat].Data
+        }
       }
     }
+    return new ObjectTemplate(_object.Region, _object.ObjectEnum, _object.SubObjectEnum, _object.ActionEnum, _object.Stats)
+  }
+
+  entityCopy (entities: ObjectTemplate[]) : ObjectTemplate[] {
+    const arr = []
+    entities = JSON.parse(JSON.stringify(entities))
+    for (const entity of entities) {
+      entity.Stats[StatTypeEnum.Tag].Data = entity.Stats[StatTypeEnum.Tag].Data + this.object.Stats[StatTypeEnum.Tag].Data
+      if (entity.Stats[StatTypeEnum.Option]) {
+        entity.Stats[StatTypeEnum.Option].Data = this.object.Stats[StatTypeEnum.Option].Data
+      }
+      arr.push(this.objectCopy(entity))
+    }
+    return arr
+  }
+
+  beforeUnmount () : void {
+    this.mechanic.UnsubscribeConditions()
+  }
+
+  getComponent (_regionEnum : number, _objectEnum: number): StatTypeEnum {
+    // _object.Stats[StatTypeEnum.Tag].Data = uuidv4()
+    return RegionType.RegionTypes[_regionEnum].ObjectTypes[_objectEnum].GetComponent()
   }
 }
 </script>
@@ -273,7 +480,6 @@ All your Resource API responses will from now on be unified into a single json d
 [[
   {"Stats":
     [
-      {"Data":"Name"},
       {"Data":"default"},
       {"Data":""},
       {"Data":"name"},{
@@ -284,7 +490,6 @@ All your Resource API responses will from now on be unified into a single json d
 The above is an example of a single entity data. Based on this data program will generate an HTML representation as defined.
 To access each individual data use:
 ```ts
-this.object.Stats[statTypeEnum.Label].Data // "Name"
 this.object.Stats[statTypeEnum.Value].Data // "default"
 this.object.Stats[statTypeEnum.Design].Data // ""
 this.object.Stats[statTypeEnum.Tag].Data // "name"
@@ -305,41 +510,37 @@ Example on how to subscribe to a HTML event (in Vue):
 ```
 
 **List of all Object types:**
-- Row,
-- Field,
-- Button,
-- Text,
-- Output,
-- Alert,
-- CheckBox,
-- DataList,
-- SelectList,
-- Radio,
-- Column,
-- ColumnButton,
-- FieldButton,
-- SelectButton,
-- ListRow,
-- ECabinetRow,
-- ECabinetColumn,
-- ModalForm,
-- MapPicker,
-- FieldCode,
-- DataSelect
+- Row, 
+- Field, 
+- Button, 
+- Text, 
+- Output, 
+- Alert, 
+- CheckBox, 
+- DataList, 
+- SelectList, 
+- Radio, 
+- Column, 
+- ColumnButton, 
+- InputGroup, 
+- ECabinetRow, 
+- ECabinetColumn, 
+- ModalForm, 
+- MapPicker, 
+- MultiMedia, 
+- UploadFile, 
+- Label
 
 **List of all Region types:**
-- Form
-- Table
-- TableColumn
-- TableRow
-- Show
-- Footer
-- List
-- ListRow
-- ECabinet
-- ECabinetRow
-- ModalForm
-- MapPicker
+- Form, 
+- Table, 
+- TableColumn, 
+- Footer, 
+- List, 
+- ECabinet, 
+- ECabinetRow, 
+- ModalForm, 
+- Placeholder
 
 **List of all SubObject types:**
 - ParentObject
@@ -350,21 +551,29 @@ Example on how to subscribe to a HTML event (in Vue):
 - Down
 
 **List of all Stat types:**
-- Label
-- Value
-- Design
-- Tag
-- Id
-- ElementType
-- Placeholder
-- ItemList
-- Tooltip
-- Required
-- Disabled
-- AutoComplete
-- BelongsTo
-- ErrorMessage
-- IsValid
+- Label, 
+- Value, 
+- Design, 
+- Tag, 
+- Id, 
+- ElementType, 
+- Placeholder, 
+- ItemList, 
+- Tooltip, 
+- Required, 
+- Disabled, 
+- AutoComplete, 
+- BelongsTo, 
+- ErrorMessage, 
+- IsValid, 
+- Order, 
+- DependsOn, 
+- Name, 
+- Inherit, 
+- BreakLine, 
+- ValueIndices, 
+- OptionIndices, 
+- Option
 
 **List of all Action types:**
 - None
@@ -375,6 +584,7 @@ Example on how to subscribe to a HTML event (in Vue):
 - InsertNumber
 - Check
 - SelectIdFromName
+- AClick
 
 ## Explanation
 The data-driven nature of ECS calls for a departure from the traditional approach of nesting components. 
