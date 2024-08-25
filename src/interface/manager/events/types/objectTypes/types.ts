@@ -109,13 +109,13 @@ export namespace Manager.Events.Type{
      }
    }
 
-   export class Output extends IChangeStat {
+   export class OutputGroup extends IChangeStat {
      public static SetComponent (getComponent: () => any): void {
-       Output.getComponent = getComponent
+       OutputGroup.getComponent = getComponent
      }
 
      public GetComponent (): any {
-       return Output.getComponent()
+       return OutputGroup.getComponent()
      }
    }
 
@@ -179,13 +179,13 @@ export namespace Manager.Events.Type{
     }
   }
 
-  export class ColumnButton extends IChangeStat {
+  export class ColumnGroup extends IChangeStat {
     public static SetComponent (getComponent: () => any): void {
-      ColumnButton.getComponent = getComponent
+      ColumnGroup.getComponent = getComponent
     }
 
     public GetComponent (): any {
-      return ColumnButton.getComponent()
+      return ColumnGroup.getComponent()
     }
   }
 
@@ -266,6 +266,15 @@ export namespace Manager.Events.Type{
 
     public GetComponent (): any {
       return Label.getComponent()
+    }
+  }
+  export class ListItem extends IChangeStat {
+    public static SetComponent (getComponent: () => any): void {
+      ListItem.getComponent = getComponent
+    }
+
+    public GetComponent (): any {
+      return ListItem.getComponent()
     }
   }
 }

@@ -5,14 +5,14 @@ export enum ObjectTypeEnum {
   Field,
   Button,
   Text,
-  Output,
+  OutputGroup,
   Alert,
   CheckBox,
   DataList,
   SelectList,
   Radio,
   Column,
-  ColumnButton,
+  ColumnGroup,
   InputGroup,
   ECabinetRow,
   ECabinetColumn,
@@ -20,7 +20,8 @@ export enum ObjectTypeEnum {
   MapPicker,
   MultiMedia,
   UploadFile,
-  Label
+  Label,
+  ListItem,
 }
 
 export class ObjectType {
@@ -30,14 +31,14 @@ export class ObjectType {
       [ObjectTypeEnum.Row]: Manager.Events.Type.Row.SetComponent,
       [ObjectTypeEnum.Button]: Manager.Events.Type.Button.SetComponent,
       [ObjectTypeEnum.Text]: Manager.Events.Type.Text.SetComponent,
-      [ObjectTypeEnum.Output]: Manager.Events.Type.Output.SetComponent, // Free to use.
+      [ObjectTypeEnum.OutputGroup]: Manager.Events.Type.OutputGroup.SetComponent, // Free to use.
       [ObjectTypeEnum.Alert]: Manager.Events.Type.Alert.SetComponent,
       [ObjectTypeEnum.CheckBox]: Manager.Events.Type.CheckBox.SetComponent,
       [ObjectTypeEnum.DataList]: Manager.Events.Type.DataList.SetComponent,
       [ObjectTypeEnum.SelectList]: Manager.Events.Type.SelectList.SetComponent,
       [ObjectTypeEnum.Radio]: Manager.Events.Type.Radio.SetComponent,
       [ObjectTypeEnum.Column]: Manager.Events.Type.Column.SetComponent,
-      [ObjectTypeEnum.ColumnButton]: Manager.Events.Type.ColumnButton.SetComponent,
+      [ObjectTypeEnum.ColumnGroup]: Manager.Events.Type.ColumnGroup.SetComponent,
       [ObjectTypeEnum.InputGroup]: Manager.Events.Type.InputGroup.SetComponent,
       [ObjectTypeEnum.ECabinetRow]: Manager.Events.Type.ECabinetRow.SetComponent,
       [ObjectTypeEnum.ECabinetColumn]: Manager.Events.Type.ECabinetColumn.SetComponent,
@@ -46,5 +47,6 @@ export class ObjectType {
       [ObjectTypeEnum.MultiMedia]: Manager.Events.Type.MultiMedia.SetComponent,
       [ObjectTypeEnum.UploadFile]: Manager.Events.Type.UploadFile.SetComponent,
       [ObjectTypeEnum.Label]: Manager.Events.Type.Label.SetComponent,
+      [ObjectTypeEnum.ListItem]: Manager.Events.Type.ListItem.SetComponent,
     }
 }
