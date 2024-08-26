@@ -62,12 +62,12 @@ export abstract class MechanicAbstract {
     return this.ObjectTemplates
   }
 
-  protected removeElementFromArray (arr: Array<any>, belongsTo: string) : void {
+  protected removeElementFromArray (arr: Array<any>, dependsOn: string) : void {
     (() => {
       // Perform the array update
       for (let i = arr.length - 1; i >= 0; i--) {
         if (arr[i].Stats[StatTypeEnum.DependsOn] !== undefined) {
-          if (arr[i].Stats[StatTypeEnum.DependsOn].Data === belongsTo) {
+          if (arr[i].Stats[StatTypeEnum.DependsOn].Data === dependsOn) {
             arr.splice(i, 1)
           }
         }
@@ -95,13 +95,7 @@ export abstract class MechanicAbstract {
   protected updateValueData (eventHandler: EventHandlerType, tagContainingValue: StatTypeEnum = StatTypeEnum.Value, searchByValueType: StatTypeEnum = StatTypeEnum.Tag, tagToUpdate: StatTypeEnum = StatTypeEnum.Value, indices: StatTypeEnum = StatTypeEnum.ValueIndices) {
     const matchingIndex = this.getObjectTemplateIndex(eventHandler.payload.Stats[searchByValueType].Data, this.ObjectTemplates, searchByValueType)
     if (matchingIndex !== -1) {
-      if (IsJSON(this.ObjectTemplates[matchingIndex].Stats[tagToUpdate].Data)) {
-        const stat = JSON.parse(this.ObjectTemplates[matchingIndex].Stats[tagToUpdate].Data)
-        stat[eventHandler.payload.Stats[indices].Data] = eventHandler.payload.Stats[tagContainingValue].Data
-        this.ObjectTemplates[matchingIndex].Stats[tagToUpdate].Data = JSON.stringify(stat)
-      } else {
-        this.ObjectTemplates[matchingIndex].Stats[tagToUpdate].Data = eventHandler.payload.Stats[tagContainingValue].Data
-      }
+      this.ObjectTemplates[matchingIndex].Stats[tagToUpdate].Data = eventHandler.payload.Stats[tagContainingValue].Data
     }
   }
 
@@ -115,25 +109,25 @@ export abstract class MechanicAbstract {
     )
   }
 
-  protected Splicing (index: number, objectTemplates: ObjectTemplate[], _objectTemplates: ObjectTemplate[]) : ObjectTemplate[] {
+  protected splicing (index: number, objectTemplates: ObjectTemplate[], _objectTemplates: ObjectTemplate[]) : ObjectTemplate[] {
     for (const element of _objectTemplates) {
       objectTemplates.splice(index, 0, element)
     }
     return objectTemplates
   }
 
-  protected addObjectTemplateInputGroup (eventHandler: EventHandlerType):void {
-    eventHandler.payload = this.getObjectTemplateFromObject(eventHandler.payload)
-    eventHandler.payload.Stats[StatTypeEnum.ElementType].Data = ''
+  protected addObjectTemplateInputGroup (objectTemplate: ObjectTemplate):void {
+    objectTemplate = this.getObjectTemplateFromObject(objectTemplate)
+    objectTemplate.Stats[StatTypeEnum.ElementType].Data = ''
     let i = 0
-    const index = this.ObjectTemplates.findIndex((element) => element.Stats[StatTypeEnum.Tag].Data === eventHandler.payload.Stats[StatTypeEnum.Tag].Data)
+    const index = this.ObjectTemplates.findIndex((element) => element.Stats[StatTypeEnum.Tag].Data === objectTemplate.Stats[StatTypeEnum.Tag].Data)
     for (const objectTemplate of this.ObjectTemplates) {
-      if (objectTemplate.Stats[StatTypeEnum.Tag].Data.includes(eventHandler.payload.Stats[StatTypeEnum.Tag].Data)) {
+      if (objectTemplate.Stats[StatTypeEnum.Tag].Data.includes(objectTemplate.Stats[StatTypeEnum.Tag].Data)) {
         i++
       }
     }
-    eventHandler.payload.Stats[StatTypeEnum.Tag].Data = eventHandler.payload.Stats[StatTypeEnum.Tag].Data + uuidv4()
-    this.ObjectTemplates = this.Splicing(index + i, this.ObjectTemplates, [eventHandler.payload as ObjectTemplate])
+    objectTemplate.Stats[StatTypeEnum.Tag].Data = objectTemplate.Stats[StatTypeEnum.Tag].Data + uuidv4()
+    this.ObjectTemplates = this.splicing(index + i, this.ObjectTemplates, [objectTemplate as ObjectTemplate])
   }
 
   protected removeElementByTag (tag : string, objectTemplates: ObjectTemplate[]): ObjectTemplate[] {
@@ -142,10 +136,25 @@ export abstract class MechanicAbstract {
     return objectTemplates
   }
 
-  protected flipAtPosition(eventHandler: EventHandlerType, tagContainingValue: StatTypeEnum = StatTypeEnum.Option, indices: StatTypeEnum = StatTypeEnum.OptionIndices): EventHandlerType {
-    const tempArray = JSON.parse(eventHandler.payload.Stats[tagContainingValue].Data)
-    tempArray[eventHandler.payload.Stats[indices].Data] ^= 1;
-    eventHandler.payload.Stats[tagContainingValue].Data = JSON.stringify(tempArray)
-    return eventHandler
+  protected updateAtPosition(
+      objectTemplate: ObjectTemplate,
+      tagContainingValue: StatTypeEnum = StatTypeEnum.Option,
+      indices: StatTypeEnum = StatTypeEnum.OptionIndices,
+      value: number | null = null,
+      index: number = 0
+  ): ObjectTemplate {
+    const tempArray = JSON.parse(objectTemplate.Stats[tagContainingValue].Data);
+
+    if (value !== null) {
+      // If value is provided, set it at index 0
+      tempArray[index] = value;
+    } else {
+      // Otherwise, flip the bit at the index specified in objectTemplate.Stats[indices].Data
+      tempArray[objectTemplate.Stats[indices].Data] ^= 1;
+    }
+
+    objectTemplate.Stats[tagContainingValue].Data = JSON.stringify(tempArray);
+    return objectTemplate;
   }
+
 }
