@@ -44,6 +44,11 @@ export namespace Manager.Events.Type{
     export class TableColumn extends RegionAbstract {
         public ObjectTypes: { [index: number]: ObjectTypeAbstract.Events.Type.ObjectTypeAbstract } =
             {
+                [ObjectTypeEnum.ECabinetRow]: new ObjectTypeAbstract.Events.Type.ECabinetRow(),
+                [ObjectTypeEnum.ECabinetColumn]: new ObjectTypeAbstract.Events.Type.ECabinetColumn(),
+                [ObjectTypeEnum.Label]: new ObjectTypeAbstract.Events.Type.Label(),
+                [ObjectTypeEnum.ListItem]: new ObjectTypeAbstract.Events.Type.ListItem(),
+                [ObjectTypeEnum.OutputGroup]: new ObjectTypeAbstract.Events.Type.OutputGroup(),
                 [ObjectTypeEnum.Button]: new ObjectTypeAbstract.Events.Type.Button(),
                 [ObjectTypeEnum.Column]: new ObjectTypeAbstract.Events.Type.Column(),
                 [ObjectTypeEnum.ColumnGroup]: new ObjectTypeAbstract.Events.Type.ColumnGroup()
