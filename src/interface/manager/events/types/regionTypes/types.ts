@@ -16,7 +16,7 @@ export namespace Manager.Events.Type{
       this.ObjectTypes[_objectType].Subscribe(_subObjectType, _statChangeDel)
     }
 
-    protected InvokeController (controllerHandler: ControllerHandlerType) : void {
+    public InvokeController (controllerHandler: ControllerHandlerType) : void {
       this.ControllerEvent.dispatch({ payload: controllerHandler.payload })
     }
 
