@@ -4,28 +4,28 @@ import { SubObjectTypeEnum } from '../subObjectType'
 import { Manager as ObjectTypeAbstract } from '../objectTypes/types'
 import { SimpleEventDispatcher } from 'ste-simple-events'
 
-export type ControllerHandlerType = {payload: any}
-export type ControllerDelegate = (controllerHandler: ControllerHandlerType) => void
+export type ControllerHandlerType<T = unknown> = { payload: T }
+export type ControllerDelegate<T = unknown> = (controllerHandler: ControllerHandlerType<T>) => void
 
 export namespace Manager.Events.Type{
 
   export abstract class RegionAbstract {
-    private ControllerEvent: SimpleEventDispatcher<ControllerHandlerType> = new SimpleEventDispatcher<ControllerHandlerType>()
+    private ControllerEvent = new SimpleEventDispatcher<ControllerHandlerType<any>>()
     public ObjectTypes: { [index: number]: ObjectTypeAbstract.Events.Type.ObjectTypeAbstract } = {}
     public Subscribe (_objectType: ObjectTypeEnum, _subObjectType: SubObjectTypeEnum, _statChangeDel:StatChangeDel): void {
       this.ObjectTypes[_objectType].Subscribe(_subObjectType, _statChangeDel)
     }
 
-    public InvokeController (controllerHandler: ControllerHandlerType) : void {
-      this.ControllerEvent.dispatch({ payload: controllerHandler.payload })
+    public InvokeController<T>(controllerHandler: ControllerHandlerType<T>): void {
+      this.ControllerEvent.dispatch(controllerHandler as any)
     }
 
-    public SubscribeController (controllerHandler: ControllerDelegate) : void {
-      this.ControllerEvent.subscribe(controllerHandler)
+    public SubscribeController<T>(handler: ControllerDelegate<T>): void {
+      this.ControllerEvent.subscribe(handler as any)
     }
 
-    public UnSubscribeController (controllerHandler: ControllerDelegate) : void {
-      this.ControllerEvent.unsubscribe(controllerHandler)
+    public UnSubscribeController<T>(handler: ControllerDelegate<T>): void {
+      this.ControllerEvent.unsubscribe(handler as any)
     }
 
     public NullifyController () : void {
