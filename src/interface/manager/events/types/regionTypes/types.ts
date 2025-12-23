@@ -4,8 +4,8 @@ import { SubObjectTypeEnum } from '../subObjectType'
 import { Manager as ObjectTypeAbstract } from '../objectTypes/types'
 import { SimpleEventDispatcher } from 'ste-simple-events'
 
-export type ControllerHandlerType<T = unknown> = { payload: T }
-export type ControllerDelegate<T = unknown> = (controllerHandler: ControllerHandlerType<T>) => void
+export type ControllerHandlerType<T> = { payload: T }
+export type ControllerDelegate<T> = (controllerHandler: ControllerHandlerType<T>) => void
 
 export namespace Manager.Events.Type{
 
