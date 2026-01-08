@@ -4,3 +4,4 @@ export { ControllerHandlerType } from './interface/manager/events/types/regionTy
 export { ObjectTypeEnum, SubObjectTypeEnum, ActionTypeEnum, StatTypeEnum, ObjectType, StatType, RegionType, RegionEnum } from './interface/manager/events/types'
 export { MechanicAbstract, MechanicDelegate } from './interface/manager/mechanics/mechanicAbstract'
 export { GetStatData, IsJSON, GetValue, GetValidationClass, StatIsDefined } from './interface/transformer'
+export { RegionProvider } from './interface/manager/events/types/regionTypes/interfaces'

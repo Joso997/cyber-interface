@@ -3,6 +3,7 @@ import {ObjectType, ObjectTypeEnum} from '../objectType'
 import { SubObjectTypeEnum } from '../subObjectType'
 import { Manager as ObjectTypeAbstract } from '../objectTypes/types'
 import { SimpleEventDispatcher } from 'ste-simple-events'
+import {RegionEnum} from "../region";
 
 export type ControllerHandlerType<T> = { payload: T }
 export type ControllerDelegate<T> = (controllerHandler: ControllerHandlerType<T>) => void
