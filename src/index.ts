@@ -3,5 +3,19 @@ export { EventHandlerType } from './interface/manager/events/types/objectTypes/t
 export { ControllerHandlerType } from './interface/manager/events/types/regionTypes/types'
 export { ObjectTypeEnum, SubObjectTypeEnum, ActionTypeEnum, StatTypeEnum, ObjectType, StatType, RegionType, RegionEnum } from './interface/manager/events/types'
 export { MechanicAbstract, MechanicDelegate } from './interface/manager/mechanics/mechanicAbstract'
-export { GetStatData, IsJSON, GetValue, GetValidationClass, StatIsDefined } from './interface/transformer'
+export {
+  GetStatData,
+  IsJSON,
+  GetValue,
+  GetValidationClass,
+  StatIsDefined,
+  ParseJSON,
+  IsJSONArray,
+  IsJSONObject,
+  GetRawStat,
+  GetStringStat,
+  GetBooleanStat,
+  GetJSONStat,
+  HasStat
+} from './interface/transformer'
 export { RegionProvider } from './interface/manager/events/types/regionTypes/interfaces'
